@@ -5,6 +5,9 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"strings"
+
+	openai "github.com/sashabaranov/go-openai"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -37,7 +40,9 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 		innerEvent := parsedEvent.InnerEvent
 		switch ev := innerEvent.Data.(type) {
 		case *slackevents.AppMentionEvent:
-			_, _, err := api.PostMessage(ev.Channel, slack.MsgOptionText("こんにちは！どのようにお手伝いできますか？", false), slack.MsgOptionTS(ev.TimeStamp))
+			question := strings.TrimPrefix(ev.Text, "@AIニキ")
+			responseText := GetAIMessage(question)
+			_, _, err := api.PostMessage(ev.Channel, slack.MsgOptionText(responseText, false), slack.MsgOptionTS(ev.TimeStamp))
 			if err != nil {
 				log.Printf("Error posting message: %v", err)
 				return events.APIGatewayProxyResponse{StatusCode: 500}, nil
@@ -46,6 +51,29 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: 200}, nil
+}
+
+func GetAIMessage(question string) string {
+	OPENAI_API_KEY := os.Getenv("OPENAI_API_KEY")
+	client := openai.NewClient(OPENAI_API_KEY)
+	resp, err := client.CreateChatCompletion(
+		context.Background(),
+		openai.ChatCompletionRequest{
+			Model: openai.GPT3Dot5Turbo,
+			Messages: []openai.ChatCompletionMessage{
+				{
+					Role:    openai.ChatMessageRoleUser,
+					Content: question,
+				},
+			},
+		},
+	)
+
+	if err != nil {
+		fmt.Printf("ChatCompletion error: %v\n", err)
+	}
+
+	return resp.Choices[0].Message.Content
 }
 
 func main() {
