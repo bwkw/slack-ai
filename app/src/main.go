@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -20,6 +21,15 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	SLACK_VERIFICATION_TOKEN := os.Getenv("SLACK_VERIFICATION_TOKEN")
 
 	api := slack.New(SLACK_API_TOKEN)
+
+	// Get the bot's user ID
+	authTestResponse, err := api.AuthTest()
+	if err != nil {
+		log.Printf("Error getting bot user ID: %v", err)
+		return events.APIGatewayProxyResponse{StatusCode: 500}, nil
+	}
+	botUserID := authTestResponse.UserID
+
 	parsedEvent, err := slackevents.ParseEvent(json.RawMessage(request.Body), slackevents.OptionVerifyToken(&slackevents.TokenComparator{VerificationToken: SLACK_VERIFICATION_TOKEN}))
 	if err != nil {
 		log.Printf("Error parsing event: %v", err)
@@ -40,6 +50,9 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 		innerEvent := parsedEvent.InnerEvent
 		switch ev := innerEvent.Data.(type) {
 		case *slackevents.AppMentionEvent:
+			if ev.User == botUserID {
+				return events.APIGatewayProxyResponse{StatusCode: 200}, nil
+			}
 			question := strings.TrimPrefix(ev.Text, "@AIニキ")
 			responseText := GetAIMessage(question)
 			_, _, err := api.PostMessage(ev.Channel, slack.MsgOptionText(responseText, false), slack.MsgOptionTS(ev.TimeStamp))
