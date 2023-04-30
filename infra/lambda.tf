@@ -6,6 +6,14 @@ resource "aws_lambda_function" "main" {
 
   s3_bucket = aws_s3_bucket.lambda_bucket.bucket
   s3_key    = aws_s3_object.lambda_code.key
+
+  environment {
+    variables = {
+      SLACK_API_TOKEN = var.SLACK_API_TOKEN
+      SLACK_VERIFICATION_TOKEN = var.SLACK_VERIFICATION_TOKEN
+      OPENAI_API_KEY = var.OPENAI_API_KEY
+    }
+  }
 }
 
 resource "aws_iam_role" "lambda_execution_role" {
