@@ -5,20 +5,20 @@ resource "aws_lambda_function" "main" {
   role          = aws_iam_role.lambda_execution_role.arn
   timeout       = 30
 
-  s3_bucket = aws_s3_bucket.lambda_bucket.bucket
-  s3_key    = aws_s3_object.lambda_code.key
+  s3_bucket     = aws_s3_bucket.lambda_bucket.bucket
+  s3_key        = aws_s3_object.lambda_code.key
 
   environment {
     variables = {
-      SLACK_API_TOKEN = var.SLACK_API_TOKEN
+      SLACK_API_TOKEN          = var.SLACK_API_TOKEN
       SLACK_VERIFICATION_TOKEN = var.SLACK_VERIFICATION_TOKEN
-      OPENAI_API_KEY = var.OPENAI_API_KEY
+      OPENAI_API_KEY           = var.OPENAI_API_KEY
     }
   }
 }
 
 resource "aws_iam_role" "lambda_execution_role" {
-  name = "lambda_execution_role"
+  name               = "lambda_execution_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
