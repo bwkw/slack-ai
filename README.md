@@ -13,9 +13,9 @@ cp .tfvars.example .tfvars
 2. Set each value in .tfvars
 
 ```
-SLACK_API_TOKEN = {{SlackのAPIトークン}}
-SLACK_VERIFICATION_TOKEN = {{SlackAPIの認証用トークン}}
-OPENAI_API_KEY = {{OpenAIのAPIキー}}
+SLACK_API_TOKEN=
+SLACK_VERIFICATION_TOKEN=
+OPENAI_API_KEY=
 ```
 
 3. Obtain AWS access_key and secret_key
