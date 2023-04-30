@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "lambda_bucket" {
   acl    = "private"
 }
 
-resource "aws_s3_bucket_object" "lambda_code" {
+resource "aws_s3_object" "lambda_code" {
   bucket       = aws_s3_bucket.lambda_bucket.id
   key          = "main.zip"
   source       = "../app/main.zip"
