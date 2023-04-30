@@ -3,6 +3,7 @@ resource "aws_lambda_function" "main" {
   handler       = "main"
   runtime       = "go1.x"
   role          = aws_iam_role.lambda_execution_role.arn
+  timeout       = 30
 
   s3_bucket = aws_s3_bucket.lambda_bucket.bucket
   s3_key    = aws_s3_object.lambda_code.key
