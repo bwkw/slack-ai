@@ -49,24 +49,24 @@ terraform validate
 4. Check what will be created
 
 ```
-AWS_PROFILE={{your_profile}} terraform plan
+AWS_PROFILE={{your_profile}} terraform plan -var-file=.tfvars
 ```
 
 5. Create resource
 
 ```
-AWS_PROFILE={{your_profile}} terraform apply
+AWS_PROFILE={{your_profile}} terraform apply -var-file=.tfvars
 ```
 
 6. Destroy resource
 
 ```
-AWS_PROFILE={{your_profile}} terraform destroy
+AWS_PROFILE={{your_profile}} terraform destroy -var-file=.tfvars
 ```
 
 ## Supplement
 
-### Deploy s3 alone.
+### Deploy s3 alone
 
 ```
 AWS_PROFILE={{your_profile}} terraform plan -target=aws_s3_bucket.lambda_bucket -target=aws_s3_object.lambda_code
