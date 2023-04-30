@@ -10,9 +10,17 @@ Question Reply Bot using API Gateway, Lambda, Go, SlackBot, OpenAI
 cp .tfvars.example .tfvars
 ```
 
-2. Obtain AWS access_key and secret_key
+2. Set each value in .tfvars
 
-3. Set up the profile in the AWS CLI
+```
+SLACK_API_TOKEN = {{SlackのAPIトークン}}
+SLACK_VERIFICATION_TOKEN = {{SlackAPIの認証用トークン}}
+OPENAI_API_KEY = {{OpenAIのAPIキー}}
+```
+
+3. Obtain AWS access_key and secret_key
+
+4. Set up the profile in the AWS CLI
 
 ```
 aws configure --profile <profile_name>
