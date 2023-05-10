@@ -4,8 +4,7 @@ Question Reply Bot using API Gateway, Lambda, Go, SlackBot, OpenAI
 
 ## View
 
-<img width="909" alt="image" src="https://github.com/bwkw/slack-ai/assets/63583536/d8c90c6a-7552-4cb4-9e73-d34c4a86fc03">
-
+<img width="903" alt="image" src="https://github.com/bwkw/slack-ai/assets/63583536/2e4c1a50-0501-4315-b892-af9dc7e0e561">
 
 ## How to set up
 
