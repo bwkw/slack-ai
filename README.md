@@ -2,6 +2,11 @@
 
 Question Reply Bot using API Gateway, Lambda, Go, SlackBot, OpenAI
 
+## View
+
+<img width="909" alt="image" src="https://github.com/bwkw/slack-ai/assets/63583536/d8c90c6a-7552-4cb4-9e73-d34c4a86fc03">
+
+
 ## How to set up
 
 1. Create Terraform secret variable file
