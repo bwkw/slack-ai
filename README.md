@@ -1,4 +1,4 @@
-## Overview
+## What is
 
 Question Reply Bot using API Gateway, Lambda, Go, SlackBot, OpenAI
 
